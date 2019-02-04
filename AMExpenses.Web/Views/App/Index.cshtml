@@ -1,9 +1,9 @@
 @{
-  ViewBag.Title = "Home Page";
+  ViewBag.Title = "Balance";
 }
 <div class="row">
-  <div class="col-md-6 offset-md-3">
-    <div class="card text-white bg-primary mb-3" style="">
+  <div class="col-md-8 offset-md-2">
+    <div class="card text-white bg-info mb-3" style="">
       <div class="card-body">
         <h5 class="card-title text-center">Current Statement</h5>
         <div>
@@ -11,16 +11,24 @@
           <div class="float-right">$9</div>
           <br/>
         </div>
+        <br/>
         <div>
           <div class="float-left">Current Credit On Account:</div>
           <div class="float-right">$9</div>
           <br/>
         </div>
+        <br/>
         <div>
-          <div class="float-left"><b>Total</b></div>
+          <div class="float-left"><b>Total:</b></div>
           <div class="float-right"><b>$9</b></div>
           <br/>
         </div>
+        <br/>
+        <br/>
+        <form>
+          <button class="btn btn-primary btn-block" asp-action="NewTransaction">Add New Transaction</button>
+          <button class="btn btn-primary btn-block">Transaction Log</button>
+        </form>
       </div>
     </div>
   </div>
