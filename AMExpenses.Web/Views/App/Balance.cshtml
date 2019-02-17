@@ -1,3 +1,4 @@
+@model BalanceViewModel
 @{
   ViewBag.Title = "Balance";
 }
@@ -7,20 +8,20 @@
       <div class="card-body">
         <h5 class="card-title text-center">Current Statement</h5>
         <div>
-          <div class="float-left" font-size="80px">Current Credit:</div>
-          <div class="float-right">$9</div>
+          <div class="float-left">Current Credit:</div>
+          <div class="float-right">$@Model.Credit</div>
           <br/>
         </div>
         <br/>
         <div>
           <div class="float-left">Current Credit On Account:</div>
-          <div class="float-right">$9</div>
+          <div class="float-right">$@Model.CreditOnAccount</div>
           <br/>
         </div>
         <br/>
         <div>
           <div class="float-left"><b>Total:</b></div>
-          <div class="float-right"><b>$9</b></div>
+          <div class="float-right"><b>$@Model.Total</b></div>
           <br/>
         </div>
         <br/>

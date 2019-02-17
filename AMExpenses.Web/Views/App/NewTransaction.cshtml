@@ -13,10 +13,10 @@
             <div class="form-group">
                 <label asp-for="Type">Type of Transaction:</label>
                 <select asp-for="Type" class="form-control">
-                    <option>Credit</option>
-                    <option>Credit on Account</option>
-                    <option>Debit to Credit</option>
-                    <option>Debit to Credit on Account</option>
+                    <option value="0">Credit</option>
+                    <option value="1">Credit on Account</option>
+                    <option value="2">Debit to Credit</option>
+                    <option value="3">Debit to Credit on Account</option>
                 </select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
