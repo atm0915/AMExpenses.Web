@@ -3,57 +3,68 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="~/vendor/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <environment names="Development">
+        <link href="~/vendor/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    </environment>
+    <environment names="Staging,Production">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+    </environment>
     <link href="~/css/site.css" rel="stylesheet"/>
     @RenderSection("styles", false)
     <title>AMExpenses: @ViewBag.Title</title>
 
 </head>
 <body>
-    <header class="container">
-        <nav class="navbar navbar-dark bg-dark navbar-expand-md">
-            <h1 class="navbar-brand">AMExpenses</h1>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#theMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div id="theMenu" class="navbar-collapse collapse">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="App" asp-action="Balance">Balance</a>
-                    </li>
+<header class="container">
+    <nav class="navbar navbar-dark bg-dark navbar-expand-md">
+        <h1 class="navbar-brand">AMExpenses</h1>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#theMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="theMenu" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link">Log</a>
+                    <a class="nav-link" asp-controller="App" asp-action="Balance">Balance</a>
                 </li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Account" asp-action="Login">Login </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
-                        </li>
-                    }
-                </ul>
-            </div>
-        </nav>
-    </header>
-        <section class="container">
-        <h2 class="text-center">@ViewBag.Title</h2>
-        @RenderBody()
-    </section>
-    <footer class="container">
-        <div class="text-center">Copyright 2019 Aiden Madaffri</div>
-    </footer>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="App" asp-action="Log">Log</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Login">Login </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </nav>
+</header>
+<section class="container">
+    <h2 class="text-center">@ViewBag.Title</h2>
+    @RenderBody()
+</section>
+<footer class="container">
+    <div class="text-center">Copyright 2019 Aiden Madaffri</div>
+</footer>
+<environment names="Development">
     <script src="~/vendor/jquery/jquery.js"></script>
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-    @RenderSection("scripts", false)
+</environment>
+<environment names="Staging,Production">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+</environment>
+@RenderSection("scripts", false)
 </body>
 </html>

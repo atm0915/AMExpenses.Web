@@ -1,0 +1,82 @@
+@{
+    ViewBag.Title = "Transaction Log";
+}
+
+@section Styles
+{
+    <environment names="Development">
+        <link href="~/vendor/datatables.net-bs4/dataTables.bootstrap4.css" rel="stylesheet"/>
+        <link href="~/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.css" rel="stylesheet"/>
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/r-2.2.2/datatables.min.css"/>
+    </environment>
+}
+
+@section Scripts
+{
+    <environment names="Development">
+        <script src="~/vendor/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
+    </environment>
+    <script>
+        $(document).ready(function() {
+            $("#TransactionTable").DataTable({
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "ajax": {
+                    "url": "/api/Transactions?userName=@User.Identity.Name",
+                    "type": "POST",
+                },
+                "columnDefs":
+                [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ],
+                "columns": [
+                    { "data": "Id"},
+                    { "data": "Date"},
+                    { "data": "Type"},
+                    { "data": "Amount"},
+                    { "data": "Description"}
+                ],
+                "searching": true,
+                "ordering": true,
+                "order": [[1, "desc"]],
+                "rowCallback": function(row, data, index) {
+                    if (data["Type"] === "Credit" || data["Type"] === "Credit On Account") {
+                        $(row.cells[2]).css('background-color', 'Green');
+                    } else if (data["Type"] === "Debit To Credit" || data['Type'] === "Debit To Credit On Account") {
+                        $(row.cells[2]).css('background-color', 'Red');
+                    }
+                }
+            });
+        });
+
+
+
+    </script>
+}
+
+<div class="container">
+    <br/>
+    <div style="width: 100%; margin: 0 auto;">
+        <table id="TransactionTable" class="table table-striped table-bordered table-hover responsive" width="100%">
+            <thead class="thin-border-bottom">
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>

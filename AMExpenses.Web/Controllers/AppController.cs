@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Linq.Dynamic;
 using System.Threading.Tasks;
 using AMExpenses.Web.Data;
 using AMExpenses.Web.Data.Entities;
@@ -7,6 +9,7 @@ using AMExpenses.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AMExpenses.Web.Controllers
 {
@@ -62,5 +65,12 @@ namespace AMExpenses.Web.Controllers
 
             return View();
         }
+
+        [HttpGet("Log")]
+        public IActionResult Log()
+        {
+            return View();
+        }
+
     }
 }

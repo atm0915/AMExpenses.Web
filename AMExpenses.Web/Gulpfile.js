@@ -14,7 +14,17 @@ var deps = {
     },
     "jquery-validation-unobtrusive-bootstrap": {
         "dist/*": ""
-    }
+    },
+    "datatables.net": {
+        "js/*": ""
+    },
+    "datatables.net-bs4": {
+        "css/*": "",
+        "js/*": ""
+    },
+    "datatables.net-responsive-bs4": {
+        "css/*": ""
+    },
 };
 
 gulp.task("scripts", function () {

@@ -3,9 +3,17 @@
 @{
     ViewBag.Title = "Register";
 }
-@section Scripts{
-    <script src="~/vendor/jquery-validation/jquery.validate.js"></script>
-    <script src="~/vendor/jquery-validation-unobtrusive-bootstrap/unobtrusive-bootstrap.js"></script>
+
+@section Scripts
+{
+    <environment names="Development">
+        <script src="~/vendor/jquery-validation/jquery.validate.js"></script>
+        <script src="~/vendor/jquery-validation-unobtrusive-bootstrap/unobtrusive-bootstrap.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive-bootstrap@2.2.0/dist/unobtrusive-bootstrap.min.js"></script>
+    </environment>
 }
 
 <div class="row">

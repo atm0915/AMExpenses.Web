@@ -2,21 +2,36 @@
 @{
     ViewBag.Title = "New Transaction";
 }
+
 @section Styles
 {
-    <link href="~/vendor/jquery-ui/jquery-ui.css" rel="stylesheet"/>
+    <environment names="Development">
+        <link href="~/vendor/jquery-ui/jquery-ui.css" rel="stylesheet"/>
+    </environment>
+    <environment names="Staging,Production">
+        <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+    </environment>
 }
+
 @section Scripts
 {
-    <script src="~/vendor/jquery-validation/jquery.validate.js"></script>
-    <script src="~/vendor/jquery-validation-unobtrusive-bootstrap/unobtrusive-bootstrap.js"></script>
-    <script src="~/vendor/jquery-ui/jquery-ui.js"></script>
+    <environment names="Development">
+        <script src="~/vendor/jquery-validation/jquery.validate.js"></script>
+        <script src="~/vendor/jquery-validation-unobtrusive-bootstrap/unobtrusive-bootstrap.js"></script>
+        <script src="~/vendor/jquery-ui/jquery-ui.js"></script>
+    </environment>
+    <environment names="Production">
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive-bootstrap@2.2.0/dist/unobtrusive-bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    </environment>
     <script type="text/javascript">
         $(function() { // will trigger when the document is ready
             $('.datepicker').datepicker(); //Initialise any date pickers
         });
     </script>
 }
+
 <div class="col-md-8 offset-md-2">
     <div class="card text-white bg-info mb-3">
         <form method="post">
@@ -56,7 +71,9 @@
                 <button type="submit" class="btn btn-success btn-block">Save Transaction</button>
                 @if (@ViewBag.UserMessage == "Transaction Saved!")
                 {
-                    <div class="text-white"><b>Transaction Saved! Return to <a asp-controller="App" asp-action="Balance">Balance</a>?</b></div>
+                    <div class="text-white">
+                        <b>Transaction Saved! Return to <a asp-controller="App" asp-action="Balance">Balance</a>?</b>
+                    </div>
                 }
             </div>
         </form>
