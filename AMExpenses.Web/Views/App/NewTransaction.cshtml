@@ -2,9 +2,20 @@
 @{
     ViewBag.Title = "New Transaction";
 }
-@section Scripts {
+@section Styles
+{
+    <link href="~/vendor/jquery-ui/jquery-ui.css" rel="stylesheet"/>
+}
+@section Scripts
+{
     <script src="~/vendor/jquery-validation/jquery.validate.js"></script>
     <script src="~/vendor/jquery-validation-unobtrusive-bootstrap/unobtrusive-bootstrap.js"></script>
+    <script src="~/vendor/jquery-ui/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(function() { // will trigger when the document is ready
+            $('.datepicker').datepicker(); //Initialise any date pickers
+        });
+    </script>
 }
 <div class="col-md-8 offset-md-2">
     <div class="card text-white bg-info mb-3">
@@ -31,13 +42,22 @@
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="DateTime">Date:</label>
+                <input asp-for="DateTime" value="@DateTime.Today.ToString("MM/dd/yyyy")" class="form-control datepicker"/>
+                <span asp-validation-for="DateTime" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
                 <label asp-for="Description">Description:</label>
                 <textarea asp-for="Description" rows="4" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-success btn-block">Create Transaction</button>
-                <div class="text-white"><b>@ViewBag.UserMessage</b></div>
+                <button type="submit" class="btn btn-success btn-block">Save Transaction</button>
+                @if (@ViewBag.UserMessage == "Transaction Saved!")
+                {
+                    <div class="text-white"><b>Transaction Saved! Return to <a asp-controller="App" asp-action="Balance">Balance</a>?</b></div>
+                }
             </div>
         </form>
     </div>

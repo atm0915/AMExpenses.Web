@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using AMExpenses.Web.Data;
 using AMExpenses.Web.Data.Entities;
+using AMExpenses.Web.Services;
 using AMExpenses.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,16 +13,18 @@ namespace AMExpenses.Web.Controllers
     [Authorize]
     public class AppController : Controller
     {
-        private readonly IAMExpensesRepository _repository;
         private readonly UserManager<StoreUser> _userManager;
+        private readonly IBalanceUpdater _balanceUpdater;
+        private readonly AMExpensesContext _ctx;
 
-        public AppController(IAMExpensesRepository repository, UserManager<StoreUser> userManager)
+        public AppController(UserManager<StoreUser> userManager, IBalanceUpdater balanceUpdater, AMExpensesContext ctx)
         {
-            _repository = repository;
             _userManager = userManager;
+            _balanceUpdater = balanceUpdater;
+            _ctx = ctx;
         }
         // GET
-        public async Task<IActionResult> Balance()
+        public IActionResult Balance()
         {
             var user = _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result;
             var model = new BalanceViewModel(){Credit = user.Credit, CreditOnAccount = user.CreditOnAccount, Total = user.Credit + user.CreditOnAccount};
@@ -34,21 +37,27 @@ namespace AMExpenses.Web.Controllers
         }
 
         [HttpPost("New")]
-        public IActionResult NewTransaction(TransactionViewModel model)
+        public async Task<IActionResult> NewTransaction(TransactionViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var user = _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result;
                 var transaction = new Transaction()
                 {
                     Amount = model.Amount,
                     Description = model.Description,
-                    Type = model.Type
+                    Type = model.Type,
+                    DateTime = model.DateTime,
+                    User = user
                 };
                 if (transaction.DateTime == DateTime.MinValue)
                 {
                     transaction.DateTime = DateTime.Now;
                 }
-                ViewBag.UserMessage = $"Type: {model.Type}; Amount: {model.Amount}; Description: {model.Description}";
+                await _ctx.AddAsync(transaction);
+                await _balanceUpdater.UpdateBalanceAsync(transaction, user);
+                await _ctx.SaveChangesAsync();
+                ViewBag.UserMessage = "Transaction Saved!";
             }
 
             return View();

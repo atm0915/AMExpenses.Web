@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AMExpenses.Web.Data;
 using AMExpenses.Web.Data.Entities;
+using AMExpenses.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -37,7 +38,7 @@ namespace AMExpenses.Web
                 cfg.UseSqlServer(_config.GetConnectionString("AMExpensesConnectionString"));
             });
 
-            services.AddScoped<IAMExpensesRepository, AMExpensesRepository>();
+            services.AddTransient<IBalanceUpdater, BalanceUpdater>();
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Latest);
@@ -59,7 +60,7 @@ namespace AMExpenses.Web
             {
                 cfg.MapRoute("Default",
                     "{controller}/{action}/{id?}",
-                    new {Controller = "App", Action = "Index"});
+                    new {Controller = "App", Action = "Balance"});
             });
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using AMExpenses.Web.Data.Entities;
 namespace AMExpenses.Web.ViewModels
@@ -9,6 +10,7 @@ namespace AMExpenses.Web.ViewModels
         [Required]
         [DataType(DataType.Currency)]
         public decimal Amount { get; set; }
+        public DateTime DateTime { get; set; }
         [Required]
         [MaxLength(7000)]
         public string Description { get; set; }

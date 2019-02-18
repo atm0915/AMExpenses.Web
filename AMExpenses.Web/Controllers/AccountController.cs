@@ -97,5 +97,12 @@ namespace AMExpenses.Web.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
     }
 }
