@@ -8,7 +8,7 @@ namespace AMExpenses.Web.ViewModels
         public LogTransactionViewModel(Transaction transaction)
         {
             Id = transaction.Id;
-            Date = transaction.DateTime.ToString("MM/dd/yyyy");
+            Date = transaction.DateTime.ToString("yyyy-MM-dd");
             Amount = $"${transaction.Amount.ToString()}";
             Description = transaction.Description;
             switch (transaction.Type)
@@ -27,6 +27,7 @@ namespace AMExpenses.Web.ViewModels
                     break;
             }
         }
+
         public long Id { get; set; }
         public string Date { get; set; }
         public string Type { get; set; }

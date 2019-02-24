@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Threading.Tasks;
@@ -16,9 +17,9 @@ namespace AMExpenses.Web.Controllers
     [Authorize]
     public class AppController : Controller
     {
-        private readonly UserManager<StoreUser> _userManager;
         private readonly IBalanceUpdater _balanceUpdater;
         private readonly AMExpensesContext _ctx;
+        private readonly UserManager<StoreUser> _userManager;
 
         public AppController(UserManager<StoreUser> userManager, IBalanceUpdater balanceUpdater, AMExpensesContext ctx)
         {
@@ -26,6 +27,7 @@ namespace AMExpenses.Web.Controllers
             _balanceUpdater = balanceUpdater;
             _ctx = ctx;
         }
+
         // GET
         public IActionResult Balance()
         {
@@ -33,6 +35,7 @@ namespace AMExpenses.Web.Controllers
             var model = new BalanceViewModel(){Credit = user.Credit, CreditOnAccount = user.CreditOnAccount, Total = user.Credit + user.CreditOnAccount};
             return View(model);
         }
+
         [HttpGet("New")]
         public IActionResult NewTransaction()
         {
@@ -67,10 +70,18 @@ namespace AMExpenses.Web.Controllers
         }
 
         [HttpGet("Log")]
-        public IActionResult Log()
+        public async Task<IActionResult> Log()
         {
-            return View();
-        }
+            var user = await _userManager.FindByNameAsync(_userManager.GetUserName(User));
+            var databaseList = await _ctx.Transactions.Where(t => t.User == user).ToListAsync();
+            var transactions = new List<LogTransactionViewModel>();
+            foreach (var transaction in databaseList)
+            {
+                var newTransaction = new LogTransactionViewModel(transaction);
+                transactions.Add(newTransaction);
+            }
 
+            return View(transactions);
+        }
     }
 }
