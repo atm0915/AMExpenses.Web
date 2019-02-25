@@ -36,7 +36,7 @@ namespace AMExpenses.Web
 
             services.AddDbContext<AMExpensesContext>(cfg =>
             {
-                cfg.UseSqlServer(_config.GetConnectionString("AMExpensesConnectionString"));
+                cfg.UseSqlServer(_config["AMExpensesConnectionString"]);
             });
 
             services.AddTransient<IBalanceUpdater, BalanceUpdater>();
