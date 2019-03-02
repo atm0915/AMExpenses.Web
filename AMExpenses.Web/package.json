@@ -2,7 +2,7 @@
   "name": "AMExpenses.Web",
   "version": "1.0.0",
   "dependencies": {
-    "bootstrap": "^4.2.1",
+    "bootstrap": "^4.3.1",
     "jquery": "^3.3.1",
     "jquery-validation": "^1.19.0",
     "jquery-validation-unobtrusive-bootstrap": "^2.2.0",
